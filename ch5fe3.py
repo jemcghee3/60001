@@ -9,7 +9,7 @@ def f(L1, L2):
     returns the sum of raising each element in L1
     to the power of the element in the same index in L2
     For example, f([1,2], [2,3]) returns 9"""
-    return sum(x for x in map(lambda x, y: x ** y, L1, L2))
+    return sum(n for n in map(lambda x, y: x ** y, L1, L2))
 
 list1 = [2, 6, 4]
 list2 = [1, 2, 3]
