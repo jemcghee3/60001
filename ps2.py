@@ -231,9 +231,10 @@ other_word = 'apple'
 print(match_with_gaps(my_word, other_word))
 """
 
-def show_possible_matches(my_word):
+def show_possible_matches(my_word, letters_guessed):
     '''
     my_word: string with _ characters, current guess of secret word
+    letters_guessed: list of strings of lower case letters, previously guessed by the player # note that I added this argument to exclude words that have letters already guessed
     returns: nothing, but should print out every word in wordlist that matches my_word
              Keep in mind that in hangman when a letter is guessed, all the positions
              at which that letter occurs in the secret word are revealed.
@@ -246,7 +247,7 @@ def show_possible_matches(my_word):
     # possible_matches = [other_word for other_word in wordlist if len(other_word) == len(my_word) and match_with_gaps(my_word, other_word)] # this is overinclusive, showing words where letters have been guessed
     # possible_matches = [other_word for other_word in possible_matches for i in range(len(my_word)) if my_word[i] == '_' and other_word[i] not in my_word] # tried to use this to modify above
     # possible_matches = [other_word for other_word in wordlist for i in range(len(my_word)-1) if len(other_word) == len(my_word) and match_with_gaps(my_word, other_word) and my_word[i] == '_' and other_word[i] not in my_word] # this was printing doubles
-    possible_matches = [other_word for other_word in wordlist if len(other_word) == len(my_word) and match_with_gaps(my_word, other_word) and all(my_word.count(c) == other_word.count(c) for c in my_word if c in string.ascii_lowercase)]
+    possible_matches = [other_word for other_word in wordlist if len(other_word) == len(my_word) and match_with_gaps(my_word, other_word) and all(c not in other_word for c in string.ascii_lowercase if c in letters_guessed and c not in my_word) and all(my_word.count(c) == other_word.count(c) for c in my_word if c in string.ascii_lowercase)]
     if len(possible_matches) == 0:
       print('No matches found')
       return
@@ -306,7 +307,7 @@ def hangman_with_hints(secret_word):
       # verifies the input meets requirements
       if str.isalpha(g) is False:
         if g == '*': # asks for a hint
-          show_possible_matches(get_guessed_word(secret_word, letters_guessed))
+          show_possible_matches(get_guessed_word(secret_word, letters_guessed), letters_guessed)
           continue
         if warnings_remaining > 0:
           warnings_remaining -= 1
