@@ -368,6 +368,6 @@ if __name__ == "__main__":
     # To test part 3 re-comment out the above lines and 
     # uncomment the following two lines. 
     
-    #secret_word = choose_word(wordlist)
-    secret_word = 'apple'
+    secret_word = choose_word(wordlist)
+    # secret_word = 'apple' # uncomment this line and comment prior line for testing
     hangman_with_hints(secret_word)
